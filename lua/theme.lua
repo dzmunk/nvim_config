@@ -25,7 +25,6 @@ local highlights = {
   Function = { fg = colors.yellow },
   Statement = { fg = colors.red },
   Type = { fg = colors.magenta },
-  -- Add more highlight groups as needed
 }
 
 for group, opts in pairs(highlights) do
