@@ -7,15 +7,10 @@ require('mason-lspconfig').setup({
 local lspconfig = require('lspconfig')
 local cmp_lsp = require('cmp_nvim_lsp')
 
--- Enhanced capabilities for nvim-cmp support
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = cmp_lsp.default_capabilities(capabilities)
+local capabilities = cmp_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- Define a function to set buffer-local options with descriptions
 local on_attach = function(client, bufnr)
   local map = vim.keymap.set
-
-  -- Helper function for setting buffer-local options and descriptions
   local function opts(desc)
     return { buffer = bufnr, desc = "LSP " .. desc, noremap = true, silent = true }
   end
@@ -35,16 +30,21 @@ local on_attach = function(client, bufnr)
 
   if client.name == 'clangd' then
     map('n', 'go', '<cmd>ClangdSwitchSourceHeader<CR>', opts('Switch Header/Source'))
+    map('n', 'gs', '<cmd>ClangdShowSymbolInfo<CR>', opts('Show Symbol Info'))
   end
 end
 
-
--- Setup LSP servers
 local servers = { 'clangd', 'pyright', 'bashls', 'lua_ls' }
 
 for _, server in ipairs(servers) do
-  lspconfig[server].setup {
+  local config = {
     capabilities = capabilities,
     on_attach = on_attach,
   }
+
+  if server == 'clangd' then
+    config.cmd = { "clangd", "--header-insertion=never" }  -- Disable auto-includes in C/C++
+  end
+
+  lspconfig[server].setup(config)
 end

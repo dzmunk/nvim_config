@@ -25,6 +25,9 @@ local highlights = {
   Function = { fg = colors.yellow },
   Statement = { fg = colors.red },
   Type = { fg = colors.magenta },
+  TabLineSel = { fg = colors.bg, bg = colors.fg },
+  TabLine = { fg = colors.white, bg = colors.bg },
+  TabLineFill = { fg = colors.bg, bg = colors.bg },
 }
 
 for group, opts in pairs(highlights) do
