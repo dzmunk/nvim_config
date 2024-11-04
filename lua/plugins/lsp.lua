@@ -19,7 +19,7 @@ local on_attach = function(client, bufnr)
   map('n', 'gd', vim.lsp.buf.definition, opts('Go to Definition'))
   map('n', 'gD', vim.lsp.buf.declaration, opts('Go to Declaration'))
   map('n', 'gr', vim.lsp.buf.references, opts('Show References'))
-  map('n', 'gi', vim.lsp.buf.implementation, opts('Go to Implementation'))
+  map('n', 'gi', vim.lsp.buf.implementation, opts('Go to Implmentation'))
   map('n', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Help'))
   map('n', '<leader>ca', vim.lsp.buf.code_action, opts('Code Action'))
 
@@ -32,6 +32,21 @@ local on_attach = function(client, bufnr)
     map('n', 'go', '<cmd>ClangdSwitchSourceHeader<CR>', opts('Switch Header/Source'))
     map('n', 'gs', '<cmd>ClangdShowSymbolInfo<CR>', opts('Show Symbol Info'))
   end
+
+  -- Toggle LSP on/off
+  local lsp_enabled = true
+  local function toggle_lsp()
+    if lsp_enabled then
+      vim.lsp.buf_detach_client(bufnr, client.id)
+      print("LSP detached for this buffer")
+    else
+      vim.lsp.buf_attach_client(bufnr, client.id)
+      print("LSP re-attached for this buffer")
+    end
+    lsp_enabled = not lsp_enabled
+  end
+
+  map('n', 'gq', toggle_lsp, opts('Toggle LSP'))
 end
 
 local servers = { 'clangd', 'pyright', 'bashls', 'lua_ls' }
