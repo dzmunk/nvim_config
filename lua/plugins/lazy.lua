@@ -80,15 +80,15 @@ require('lazy').setup({
     config = function()
       require('plugins.telescope').setup()
     end,
-  }
+  },  -- **Added missing comma here**
 
   -- Nvim-tree configuration
   {
     'nvim-tree/nvim-tree.lua',
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    keys = require('nvim-tree').keys,
+    keys = require('plugins.nvim-tree').keys,
     config = function()
-      require('nvim-tree').setup()
+      require('plugins.nvim-tree').setup()
     end,
   },
 
