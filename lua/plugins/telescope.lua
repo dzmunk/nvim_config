@@ -1,31 +1,41 @@
 -- plugins/telescope.lua
-local telescope = require('telescope')
-telescope.setup {
-  defaults = {
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case',
-      '--fixed-strings'
+local M = {}
+local last_searched_folder = ""
+
+-- Telescope setup function
+function M.setup()
+  require('telescope').setup {
+    defaults = {
+      find_command = { 
+        "rg", 
+        "--files", 
+        "--color=never", 
+        "-g", "!.git/",             -- Ignore `.git` directory
+        "-g", "!build",             -- Ignore `build` directory
+        "-g", "!__pycache__",       -- Ignore `__pycache__` directory
+        "-g", "!node_modules"       -- Ignore `node_modules` directory
+      },
     },
-    file_ignore_patterns = { "node_modules", ".git/", "build", "__pycache__" },
+  }
+end
+
+-- Key mappings for Telescope
+M.keys = {
+  { 'n', '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
+  { 'n', '<leader>fF', '<cmd>Telescope git_files<cr>', desc = 'Find Files' },
+  { 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep' },
+  { 'n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent Files' },
+  { 'n', '<leader>fd', function()
+      local folder = vim.fn.input("Search folder: ", last_searched_folder, "file")
+      if folder == "" or vim.loop.fs_stat(folder) then
+        last_searched_folder = folder
+        require('telescope.builtin').live_grep({ cwd = folder })
+      else
+        print('Invalid or non-existent folder!')
+      end
+    end,
+    desc = 'Live Grep in Specific Folder'
   },
 }
 
--- Keybindings for Telescope
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find Files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Live Grep' })
-
-vim.keymap.set('n', '<leader>fd', function()
-  local folder = vim.fn.input("Search folder: ", "", "file")
-  if folder == "" or vim.loop.fs_stat(folder) then
-    require('telescope.builtin').live_grep({ cwd = folder })
-  else
-    print("Invalid or non-existent folder!")
-  end
-end, { desc = 'Live Grep in Specific Folder' })
+return M

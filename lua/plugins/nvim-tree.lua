@@ -1,10 +1,21 @@
 -- plugins/nvim-tree.lua
-require('nvim-tree').setup({
-  git = {
-    enable = false,
-  },
-})
+local M = {}
 
--- Keybinding to toggle Nvim-tree
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = 'Toggle NvimTree' })
+-- Key mappings for Nvim-tree
+M.keys = {
+  { 'n', '<leader>e', ':NvimTreeToggle<CR>', desc = 'Toggle NvimTree' }
+}
 
+-- Nvim-tree setup
+function M.setup()
+  require('nvim-tree').setup({
+    git = {
+      enable = false,
+    },
+    update_focused_file = {
+      enable = true,
+    },
+  })
+end
+
+return M

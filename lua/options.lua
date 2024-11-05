@@ -1,0 +1,36 @@
+-- settings.lua
+local opt = vim.opt
+
+opt.clipboard = "unnamedplus"
+opt.completeopt = "menu,menuone,noselect"
+opt.grepformat = "%f:%l:%c:%m"
+opt.grepprg = "rg --vimgrep"
+opt.inccommand = "nosplit"
+opt.jumpoptions = "view"
+opt.splitkeep = "screen"
+opt.signcolumn = "yes"
+opt.mouse = "a"
+opt.pumheight = 10 
+opt.laststatus = 3
+opt.scrolloff = 4
+opt.sidescrolloff = 8
+opt.linebreak = true
+opt.list = true
+opt.confirm = true
+opt.number = true
+opt.shiftround = true 
+opt.relativenumber = false
+opt.wrap = false
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.expandtab = true
+opt.smartindent = true
+opt.cursorline = true
+opt.termguicolors = true
+opt.splitbelow = true
+opt.splitright = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.virtualedit = "block"
+opt.winminwidth = 5
+opt.smoothscroll = true

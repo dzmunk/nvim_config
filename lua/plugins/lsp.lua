@@ -1,15 +1,8 @@
--- plugins/lsp.lua
-require('mason').setup()
-require('mason-lspconfig').setup({
-  ensure_installed = { 'clangd', 'pyright', 'bashls', 'lua_ls' },
-})
+local M = {}
 
-local lspconfig = require('lspconfig')
-local cmp_lsp = require('cmp_nvim_lsp')
+M.capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local capabilities = cmp_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-local on_attach = function(client, bufnr)
+M.on_attach = function(client, bufnr)
   local map = vim.keymap.set
   local function opts(desc)
     return { buffer = bufnr, desc = "LSP " .. desc, noremap = true, silent = true }
@@ -19,7 +12,7 @@ local on_attach = function(client, bufnr)
   map('n', 'gd', vim.lsp.buf.definition, opts('Go to Definition'))
   map('n', 'gD', vim.lsp.buf.declaration, opts('Go to Declaration'))
   map('n', 'gr', vim.lsp.buf.references, opts('Show References'))
-  map('n', 'gi', vim.lsp.buf.implementation, opts('Go to Implmentation'))
+  map('n', 'gi', vim.lsp.buf.implementation, opts('Go to Implementation'))
   map('n', '<C-k>', vim.lsp.buf.signature_help, opts('Signature Help'))
   map('n', '<leader>ca', vim.lsp.buf.code_action, opts('Code Action'))
 
@@ -45,21 +38,26 @@ local on_attach = function(client, bufnr)
     end
     lsp_enabled = not lsp_enabled
   end
-
   map('n', 'gq', toggle_lsp, opts('Toggle LSP'))
 end
 
-local servers = { 'clangd', 'pyright', 'bashls', 'lua_ls' }
+M.servers = { 'clangd', 'pyright', 'bashls', 'lua_ls' }
 
-for _, server in ipairs(servers) do
-  local config = {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
+M.setup = function()
+  local lspconfig = require('lspconfig')
 
-  if server == 'clangd' then
-    config.cmd = { "clangd", "--header-insertion=never" }  -- Disable auto-includes in C/C++
+  for _, server in ipairs(M.servers) do
+    local config = {
+      capabilities = M.capabilities,
+      on_attach = M.on_attach,
+    }
+
+    if server == 'clangd' then
+      config.cmd = { "clangd", "--header-insertion=never" }  -- Disable auto-includes in C/C++
+    end
+
+    lspconfig[server].setup(config)
   end
-
-  lspconfig[server].setup(config)
 end
+
+return M
