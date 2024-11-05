@@ -18,7 +18,7 @@ require('lazy').setup({
   {
     'williamboman/mason.nvim',
     cmd = "Mason",
-    build = ":MasonUpdate",
+    build = ":MasonInstallAll",
   },
 
   -- Mason-LSPConfig integration for automatic LSP installation
