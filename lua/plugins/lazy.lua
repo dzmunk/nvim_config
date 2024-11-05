@@ -1,17 +1,4 @@
 -- plugins/lazy.lua
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    'git',
-    'clone',
-    '--filter=blob:none',
-    '--branch=stable', -- latest stable release
-    'https://github.com/folke/lazy.nvim.git',
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
 require('lazy').setup({
   -- Nvim-cmp
   {
@@ -80,7 +67,7 @@ require('lazy').setup({
     config = function()
       require('plugins.telescope').setup()
     end,
-  },  -- **Added missing comma here**
+  },
 
   -- Nvim-tree configuration
   {
@@ -114,5 +101,5 @@ require('lazy').setup({
         highlight = { enable = true },
       }
     end,
-  }
+  },
 })

@@ -1,6 +1,6 @@
 -- plugins/telescope.lua
 local M = {}
-local last_searched_folder = ""
+local last_searched_folder = ""  -- Store the last searched folder for reuse
 
 -- Telescope setup function
 function M.setup()
@@ -22,10 +22,11 @@ end
 -- Key mappings for Telescope
 M.keys = {
   { 'n', '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
-  { 'n', '<leader>fF', '<cmd>Telescope git_files<cr>', desc = 'Find Files' },
+  { 'n', '<leader>fF', '<cmd>Telescope git_files<cr>', desc = 'Find Git Files' },
   { 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep' },
   { 'n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent Files' },
-  { 'n', '<leader>fd', function()
+  {
+    'n', '<leader>fd', function()
       local folder = vim.fn.input("Search folder: ", last_searched_folder, "file")
       if folder == "" or vim.loop.fs_stat(folder) then
         last_searched_folder = folder
