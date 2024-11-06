@@ -147,8 +147,11 @@ require('lazy').setup({
       {
         "<leader>fF",
         function()
-          local builtin = require('telescope.builtin')
-          pcall(builtin.git_files) or builtin.find_files()  -- Try git_files, fallback to find_files
+          local builtin = require("telescope.builtin")
+          local success = pcall(builtin.git_files)
+          if not success then
+            builtin.find_files()
+          end
         end,
         desc = "Find Git Files",
         mode = "n",
