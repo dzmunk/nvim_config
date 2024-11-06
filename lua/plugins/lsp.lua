@@ -3,10 +3,6 @@ local M = {}
 
 -- On_attach function to bind keys only for LSP buffers
 M.on_attach = function(client, bufnr)
-  for _, keymap in ipairs(M.keys) do
-    local opts = { buffer = bufnr, desc = keymap.desc, noremap = true, silent = true }
-    vim.keymap.set(keymap.mode, keymap.lhs, keymap.rhs, opts)
-  end
 end
 
 -- LSP server configurations

@@ -127,7 +127,6 @@ require('lazy').setup({
   {
     'akinsho/bufferline.nvim',
     event = "VeryLazy",
-    dependencies = { 'nvim-tree/nvim-tree.lua' },
     keys = {
       { "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
       { "<Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
