@@ -7,6 +7,26 @@ require('lazy').setup({
     build = ":MasonUpdate",  -- Automatically update Mason on install/update
   },
 
+  -- Nvim-cmp for auto-completion setup
+  {
+    'hrsh7th/nvim-cmp',
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",  -- LSP source for nvim-cmp
+      "hrsh7th/cmp-buffer",    -- Buffer source for nvim-cmp
+      "hrsh7th/cmp-path",      -- Path source for nvim-cmp
+    },
+    config = function()
+      require('plugins.cmp').setup()
+    end,
+  },
+  
+  -- WhichKey setup for displaying key mappings
+  {
+    'folke/which-key.nvim',
+    event = "VeryLazy",  -- Load lazily to optimize startup
+  },
+
   -- Mason-LSPConfig integration for automatic LSP installation
   {
     'williamboman/mason-lspconfig.nvim',
@@ -44,26 +64,6 @@ require('lazy').setup({
         highlight = { enable = true },
       }
     end,
-  },
-
-  -- Nvim-cmp for auto-completion setup
-  {
-    'hrsh7th/nvim-cmp',
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",  -- LSP source for nvim-cmp
-      "hrsh7th/cmp-buffer",    -- Buffer source for nvim-cmp
-      "hrsh7th/cmp-path",      -- Path source for nvim-cmp
-    },
-    config = function()
-      require('plugins.cmp').setup()
-    end,
-  },
-
-  -- WhichKey setup for displaying key mappings
-  {
-    'folke/which-key.nvim',
-    event = "VeryLazy",  -- Load lazily to optimize startup
   },
 
   -- Nvim-tree for file navigation
