@@ -7,6 +7,33 @@ require('lazy').setup({
     build = ":MasonUpdate",  -- Automatically update Mason on install/update
   },
 
+  -- Mason-LSPConfig integration for automatic LSP installation
+  {
+    'williamboman/mason-lspconfig.nvim',
+    event = { "BufReadPost", "BufNewFile" },
+    dependencies = { 'williamboman/mason.nvim' },
+    config = function()
+      require('mason-lspconfig').setup({
+        ensure_installed = { 'clangd', 'pyright', 'bashls', 'lua_ls' },
+      })
+    end,
+  },
+
+  -- LSP Config with custom configuration for LSP servers
+  {
+    'neovim/nvim-lspconfig',
+    event = { "BufReadPost", "BufNewFile" },
+    keys = require('plugins.lsp').keys,
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",  -- LSP source for nvim-cmp
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+    },
+    config = function()
+      require('plugins.lsp').setup()
+    end,
+  },
+
   -- Nvim-cmp for auto-completion setup
   {
     'hrsh7th/nvim-cmp',
@@ -24,33 +51,9 @@ require('lazy').setup({
   -- WhichKey setup for displaying key mappings
   {
     'folke/which-key.nvim',
-    event = "VeryLazy",  -- Load lazily to optimize startup
-  },
-
-  -- Mason-LSPConfig integration for automatic LSP installation
-  {
-    'williamboman/mason-lspconfig.nvim',
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    dependencies = { 'williamboman/mason.nvim' },
+    event = "VeryLazy",  -- Load which-key.nvim lazily to optimize startup
     config = function()
-      require('mason-lspconfig').setup({
-        ensure_installed = { 'clangd', 'pyright', 'bashls', 'lua_ls' },
-      })
-    end,
-  },
-
-  -- LSP Config with custom configuration for LSP servers
-  {
-    'neovim/nvim-lspconfig',
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-    keys = require('plugins.lsp').keys,
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-    },
-    config = function()
-      require('plugins.lsp').setup()
+      require("which-key").setup()
     end,
   },
 
@@ -58,7 +61,7 @@ require('lazy').setup({
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',  -- Update Treesitter parsers
-    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+    event = { "BufReadPost", "BufNewFile", "VeryLazy" },
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 'c', 'cpp', 'lua', 'python', 'bash' },
@@ -81,7 +84,7 @@ require('lazy').setup({
   {
     'akinsho/bufferline.nvim',
     event = "VeryLazy",
-    dependencies = { 'nvim-tree/nvim-tree.lua', 'folke/which-key.nvim' },
+    dependencies = { 'nvim-tree/nvim-tree.lua' },
     keys = require('plugins.bufferline').keys,
     config = function()
       require('plugins.bufferline').setup()
