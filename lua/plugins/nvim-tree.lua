@@ -3,7 +3,7 @@ local M = {}
 
 -- Key mappings for Nvim-tree
 M.keys = {
-  { 'n', '<leader>e', ':NvimTreeToggle<CR>', desc = 'Toggle NvimTree' }
+  { mode = "n", lhs = "<leader>e", rhs = ":NvimTreeToggle<CR>", desc = "Toggle NvimTree" },
 }
 
 -- Nvim-tree setup

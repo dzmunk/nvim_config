@@ -1,23 +1,10 @@
 -- plugins/lazy.lua
 require('lazy').setup({
-  -- Nvim-cmp
-  {
-    'hrsh7th/nvim-cmp',
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-    },
-    config = function()
-      require('plugins.cmp').setup()
-    end,
-  },
-
-  -- Mason setup for LSP manager
+  -- Mason setup for managing LSP servers and external tools
   {
     'williamboman/mason.nvim',
     cmd = "Mason",
+    build = ":MasonUpdate",  -- Automatically update Mason on install/update
   },
 
   -- Mason-LSPConfig integration for automatic LSP installation
@@ -32,10 +19,11 @@ require('lazy').setup({
     end,
   },
 
-  -- LSP Config with the custom configuration module
+  -- LSP Config with custom configuration for LSP servers
   {
     'neovim/nvim-lspconfig',
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    keys = require('plugins.lsp').keys,
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -45,30 +33,40 @@ require('lazy').setup({
     end,
   },
 
-  -- WhichKey setup
+  -- Treesitter for syntax highlighting and parsing
   {
-    'folke/which-key.nvim',
-    event = "VeryLazy",
-  },
-
-  -- Telescope setup
-  {
-    'nvim-telescope/telescope.nvim',
-    cmd = "Telescope",
-    keys = require('plugins.telescope').keys,  
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim', 
-        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' 
-      }
-    },
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate',  -- Update Treesitter parsers
+    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
     config = function()
-      require('plugins.telescope').setup()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = { 'c', 'cpp', 'lua', 'python', 'bash' },
+        highlight = { enable = true },
+      }
     end,
   },
 
-  -- Nvim-tree configuration
+  -- Nvim-cmp for auto-completion setup
+  {
+    'hrsh7th/nvim-cmp',
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",  -- LSP source for nvim-cmp
+      "hrsh7th/cmp-buffer",    -- Buffer source for nvim-cmp
+      "hrsh7th/cmp-path",      -- Path source for nvim-cmp
+    },
+    config = function()
+      require('plugins.cmp').setup()
+    end,
+  },
+
+  -- WhichKey setup for displaying key mappings
+  {
+    'folke/which-key.nvim',
+    event = "VeryLazy",  -- Load lazily to optimize startup
+  },
+
+  -- Nvim-tree for file navigation
   {
     'nvim-tree/nvim-tree.lua',
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
@@ -78,7 +76,7 @@ require('lazy').setup({
     end,
   },
 
-  -- Bufferline setup
+  -- Bufferline setup for buffer management
   {
     'akinsho/bufferline.nvim',
     event = "VeryLazy",
@@ -89,16 +87,20 @@ require('lazy').setup({
     end,
   },
 
-  -- Treesitter for syntax highlighting and parsing
+  -- Telescope setup for fuzzy finding
   {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'c', 'cpp', 'lua', 'python', 'bash' },
-        highlight = { enable = true },
+    'nvim-telescope/telescope.nvim',
+    cmd = "Telescope",
+    keys = require('plugins.telescope').keys,  
+    dependencies = {
+      'nvim-lua/plenary.nvim',  -- Essential Lua functions for Telescope
+      {
+        'nvim-telescope/telescope-fzf-native.nvim', 
+        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' 
       }
+    },
+    config = function()
+      require('plugins.telescope').setup()
     end,
   },
 })

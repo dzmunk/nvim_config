@@ -21,21 +21,23 @@ end
 
 -- Key mappings for Telescope
 M.keys = {
-  { 'n', '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
-  { 'n', '<leader>fF', '<cmd>Telescope git_files<cr>', desc = 'Find Git Files' },
-  { 'n', '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep' },
-  { 'n', '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent Files' },
+  { mode = "n", lhs = "<leader>ff", rhs = "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+  { mode = "n", lhs = "<leader>fF", rhs = "<cmd>Telescope git_files<cr>", desc = "Find Git Files" },
+  { mode = "n", lhs = "<leader>fg", rhs = "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+  { mode = "n", lhs = "<leader>fr", rhs = "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
   {
-    'n', '<leader>fd', function()
+    mode = "n",
+    lhs = "<leader>fd",
+    rhs = function()
       local folder = vim.fn.input("Search folder: ", last_searched_folder, "file")
       if folder == "" or vim.loop.fs_stat(folder) then
         last_searched_folder = folder
         require('telescope.builtin').live_grep({ cwd = folder })
       else
-        print('Invalid or non-existent folder!')
+        print("Invalid or non-existent folder!")
       end
     end,
-    desc = 'Live Grep in Specific Folder'
+    desc = "Live Grep in Specific Folder"
   },
 }
 
