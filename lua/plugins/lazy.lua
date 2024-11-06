@@ -12,6 +12,22 @@ require('lazy').setup({
       if vim.fn.exists(":MasonUpdate") == 2 then
         vim.cmd("MasonUpdate")
       end
+      
+      -- Ensure LSPs are installed after MasonUpdate
+      local mason_lspconfig = require("mason-lspconfig")
+      mason_lspconfig.setup({
+        ensure_installed = { 'clangd', 'pyright', 'bashls', 'lua_ls' },
+      })
+      
+      local mr = require("mason-registry")
+      mr.refresh(function()
+        for _, tool in ipairs({ 'clangd', 'pyright', 'bashls', 'lua_ls' }) do
+          local p = mr.get_package(tool)
+          if not p:is_installed() then
+            p:install()
+          end
+        end
+      end)
     end,
     config = function()
       require("mason").setup()
@@ -130,7 +146,8 @@ require('lazy').setup({
     keys = {
       { "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
       { "<Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
-      { "<leader>xa", "<cmd>BufferLineCloseOthers<CR>", desc = "Delete Other Buffers" },
+      { "<leader>ax", "<cmd>BufferLineCloseOthers<CR>", desc = "Delete Other Buffers" },
+      { "<leader>x", function() require("bufferline").close_command(vim.api.nvim_get_current_buf()) end, desc = "Close Current Buffer" },
     },
     config = function()
       require('plugins.bufferline').setup()
@@ -181,6 +198,7 @@ require('lazy').setup({
     },
     config = function()
       require('plugins.telescope').setup()
+      require('telescope').load_extension('fzf')
     end,
   },
 })
