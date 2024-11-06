@@ -19,13 +19,7 @@ require('lazy').setup({
       })
     end,
     config = function()
-      require("mason").setup({
-        opts = {
-          rocks = {
-            enabled = false,  -- Disable luarocks support completely
-          },
-        },
-      })
+      require("mason").setup()  -- Setup Mason
     end,
   },
 
