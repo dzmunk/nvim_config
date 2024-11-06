@@ -12,29 +12,12 @@ require('lazy').setup({
       if vim.fn.exists(":MasonUpdate") == 2 then
         vim.cmd("MasonUpdate")
       end
-  
-      -- Ensure LSPs are installed after Mason is set up
-      local mason_lspconfig = require("mason-lspconfig")
-      mason_lspconfig.setup({
-        ensure_installed = { 'clangd', 'pyright', 'bashls', 'lua_ls' },  -- List of LSPs to ensure are installed
-      })
-  
-      -- Manually install LSPs if they are not already installed
-      local mr = require("mason-registry")
-      mr.refresh(function()
-        for _, tool in ipairs({ 'clangd', 'pyright', 'bashls', 'lua_ls' }) do
-          local p = mr.get_package(tool)
-          if p and not p:is_installed() then  -- Check if package exists and is not installed
-            p:install()  -- Install the package
-          end
-        end
-      end)
     end,
     config = function()
       require("mason").setup()  -- Setup Mason
     end,
   },
-  
+
   -- Mason-LSPConfig integration for automatic LSP installation
   {
     'williamboman/mason-lspconfig.nvim',
