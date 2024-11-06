@@ -16,7 +16,7 @@ require('lazy').setup({
     config = function()
       require("mason").setup()
     end,
-  }
+  },
 
   -- Mason-LSPConfig integration for automatic LSP installation
   {
