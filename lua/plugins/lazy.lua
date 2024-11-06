@@ -7,13 +7,16 @@ require('lazy').setup({
     'williamboman/mason.nvim',
     cmd = "Mason",
     build = function()
-      vim.schedule(function()
-        if vim.fn.exists(":MasonUpdate") == 2 then
-          vim.cmd("MasonUpdate")
-        end
-      end)
+      -- Explicitly load Mason before running MasonUpdate
+      require("mason")
+      if vim.fn.exists(":MasonUpdate") == 2 then
+        vim.cmd("MasonUpdate")
+      end
     end,
-  },
+    config = function()
+      require("mason").setup()
+    end,
+  }
 
   -- Mason-LSPConfig integration for automatic LSP installation
   {
@@ -141,7 +144,15 @@ require('lazy').setup({
     cmd = "Telescope",
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files", mode = "n" },
-      { "<leader>fF", "<cmd>Telescope git_files<cr>", desc = "Find Git Files", mode = "n" },
+      {
+        "<leader>fF",
+        function()
+          local builtin = require('telescope.builtin')
+          pcall(builtin.git_files) or builtin.find_files()  -- Try git_files, fallback to find_files
+        end,
+        desc = "Find Git Files",
+        mode = "n",
+      },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep", mode = "n" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files", mode = "n" },
       {
