@@ -12,6 +12,11 @@ require('lazy').setup({
       if vim.fn.exists(":MasonUpdate") == 2 then
         vim.cmd("MasonUpdate")
       end
+
+      local mason_lspconfig = require("mason-lspconfig")
+      mason_lspconfig.setup({
+        ensure_installed = { 'clangd', 'pyright', 'bashls', 'lua_ls' },  -- List of LSPs to ensure are installed
+      })
     end,
     config = function()
       require("mason").setup()  -- Setup Mason
