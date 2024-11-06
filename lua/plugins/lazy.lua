@@ -4,7 +4,13 @@ require('lazy').setup({
   {
     'williamboman/mason.nvim',
     cmd = "Mason",
-    build = ":MasonUpdate",  -- Automatically update Mason on install/update
+    build = function()
+      vim.schedule(function()
+        if vim.fn.exists(":MasonUpdate") == 2 then
+          vim.cmd("MasonUpdate")
+        end
+      end)
+    end,
   },
 
   -- Mason-LSPConfig integration for automatic LSP installation
