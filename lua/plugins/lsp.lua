@@ -20,22 +20,24 @@ M.keys = {
   { mode = "n", lhs = "[d", rhs = vim.diagnostic.goto_prev, desc = "Previous Diagnostic" },
   { mode = "n", lhs = "]d", rhs = vim.diagnostic.goto_next, desc = "Next Diagnostic" },
   { mode = "n", lhs = "<leader>dl", rhs = vim.diagnostic.setloclist, desc = "Diagnostic List" },
-  { mode = "n", lhs = "go", rhs = "<cmd>ClangdSwitchSourceHeader<CR>", desc = "LSP Switch Header/Source", ft = "c,cpp" },
-  { mode = "n", lhs = "gs", rhs = "<cmd>ClangdShowSymbolInfo<CR>", desc = "LSP Show Symbol Info", ft = "c,cpp" },
-  { mode = "n", lhs = "gq", rhs = function()
-      local lsp_enabled = true
-      return function()
-        if lsp_enabled then
-          vim.lsp.buf_detach_client(0, vim.lsp.get_client_by_id(1).id)
-          print("LSP detached for this buffer")
-        else
-          vim.lsp.buf_attach_client(0, vim.lsp.get_client_by_id(1).id)
-          print("LSP re-attached for this buffer")
-        end
-        lsp_enabled = not lsp_enabled
+  { mode = "n", lhs = "go", rhs = "<cmd>ClangdSwitchSourceHeader<CR>", desc = "LSP Switch Header/Source" },
+  { mode = "n", lhs = "gs", rhs = "<cmd>ClangdShowSymbolInfo<CR>", desc = "LSP Show Symbol Info" },
+
+  -- Toggle LSP On/Off
+  {
+    mode = "n",
+    lhs = "gq",
+    rhs = function()
+      local client = vim.lsp.get_client_by_id(1)
+      if client and client.attached_buffers[bufnr] then
+        vim.lsp.buf_detach_client(bufnr, client.id)
+        print("LSP detached for this buffer")
+      else
+        vim.lsp.buf_attach_client(bufnr, client.id)
+        print("LSP re-attached for this buffer")
       end
-    end, 
-    desc = "Toggle LSP"
+    end,
+    desc = "Toggle LSP",
   },
 }
 
