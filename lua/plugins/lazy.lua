@@ -20,7 +20,7 @@ require('lazy').setup({
       require('plugins.cmp').setup()
     end,
   },
-  
+
   -- WhichKey setup for displaying key mappings
   {
     'folke/which-key.nvim',
@@ -45,6 +45,7 @@ require('lazy').setup({
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     keys = require('plugins.lsp').keys,
     dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
     },
