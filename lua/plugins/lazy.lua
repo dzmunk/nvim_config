@@ -136,7 +136,7 @@ require('lazy').setup({
       { "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
       { "<Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
       { "<leader>ax", "<cmd>BufferLineCloseOthers<CR>", desc = "Delete Other Buffers" },
-      { "<leader>x", function() require("bufferline").close_command(vim.api.nvim_get_current_buf()) end, desc = "Close Current Buffer" },
+      { "<leader>x", function() require('plugins.bufferline').bufremove() end, desc = "Close Current Buffer" },
     },
     config = function()
       require('plugins.bufferline').setup()
