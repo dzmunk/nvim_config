@@ -1,3 +1,5 @@
+local last_searched_folder = ""
+
 -- plugins/lazy.lua
 require('lazy').setup({
   -- Mason setup for managing LSP servers and external tools
@@ -29,7 +31,37 @@ require('lazy').setup({
   {
     'neovim/nvim-lspconfig',
     event = { "BufReadPost", "BufNewFile" },
-    keys = require('plugins.lsp').keys,
+    keys = {
+      { "gd", vim.lsp.buf.definition, desc = "LSP Go to Definition", mode = "n" },
+      { "gD", vim.lsp.buf.declaration, desc = "LSP Go to Declaration", mode = "n" },
+      { "gr", vim.lsp.buf.references, desc = "LSP Show References", mode = "n" },
+      { "gi", vim.lsp.buf.implementation, desc = "LSP Go to Implementation", mode = "n" },
+      { "<C-k>", vim.lsp.buf.signature_help, desc = "LSP Signature Help", mode = "n" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP Code Action", mode = "n" },
+      { "[d", vim.diagnostic.goto_prev, desc = "Previous Diagnostic", mode = "n" },
+      { "]d", vim.diagnostic.goto_next, desc = "Next Diagnostic", mode = "n" },
+      { "<leader>dl", vim.diagnostic.setloclist, desc = "Diagnostic List", mode = "n" },
+      { "go", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "LSP Switch Header/Source", mode = "n" },
+      { "gs", "<cmd>ClangdShowSymbolInfo<CR>", desc = "LSP Show Symbol Info", mode = "n" },
+
+      -- Toggle LSP On/Off
+      {
+        "gq",
+        function()
+          local client = vim.lsp.get_client_by_id(1)
+          local bufnr = vim.api.nvim_get_current_buf()
+          if client and client.attached_buffers[bufnr] then
+            vim.lsp.buf_detach_client(bufnr, client.id)
+            print("LSP detached for this buffer")
+          else
+            vim.lsp.buf_attach_client(bufnr, client.id)
+            print("LSP re-attached for this buffer")
+          end
+        end,
+        desc = "Toggle LSP",
+        mode = "n",
+      },
+    },
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",  -- LSP source for nvim-cmp
       "williamboman/mason.nvim",
@@ -80,7 +112,9 @@ require('lazy').setup({
   {
     'nvim-tree/nvim-tree.lua',
     cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    keys = require('plugins.nvim-tree').keys,
+    keys = {
+      { "<leader>e", ":NvimTreeToggle<CR>", desc = "Toggle NvimTree", mode = "n" },
+    },
     config = function()
       require('plugins.nvim-tree').setup()
     end,
@@ -91,7 +125,11 @@ require('lazy').setup({
     'akinsho/bufferline.nvim',
     event = "VeryLazy",
     dependencies = { 'nvim-tree/nvim-tree.lua' },
-    keys = require('plugins.bufferline').keys,
+    keys = {
+      { "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "<Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "<leader>xa", "<cmd>BufferLineCloseOthers<CR>", desc = "Delete Other Buffers" },
+    },
     config = function()
       require('plugins.bufferline').setup()
     end,
@@ -101,7 +139,26 @@ require('lazy').setup({
   {
     'nvim-telescope/telescope.nvim',
     cmd = "Telescope",
-    keys = require('plugins.telescope').keys,  
+    keys = {
+      { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files", mode = "n" },
+      { "<leader>fF", "<cmd>Telescope git_files<cr>", desc = "Find Git Files", mode = "n" },
+      { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep", mode = "n" },
+      { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files", mode = "n" },
+      {
+        "<leader>fd",
+        function()
+          local folder = vim.fn.input("Search folder: ", last_searched_folder, "file")
+          if folder == "" or vim.loop.fs_stat(folder) then
+            last_searched_folder = folder
+            require('telescope.builtin').live_grep({ cwd = folder })
+          else
+            print("Invalid or non-existent folder!")
+          end
+        end,
+        desc = "Live Grep in Specific Folder",
+        mode = "n",
+      },
+    },
     dependencies = {
       'nvim-lua/plenary.nvim',  -- Essential Lua functions for Telescope
       {

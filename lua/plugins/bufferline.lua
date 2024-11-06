@@ -1,12 +1,6 @@
 -- plugins/bufferline.lua
 local M = {}
 
-M.keys = {
-  { mode = "n", lhs = "<S-Tab>", rhs = "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-  { mode = "n", lhs = "<Tab>", rhs = "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
-  { mode = "n", lhs = "<leader>xa", rhs = "<cmd>BufferLineCloseOthers<CR>", desc = "Delete Other Buffers" },
-}
-
 function M.setup()
   require('bufferline').setup {
     options = {

@@ -1,11 +1,6 @@
 -- plugins/nvim-tree.lua
 local M = {}
 
--- Key mappings for Nvim-tree
-M.keys = {
-  { mode = "n", lhs = "<leader>e", rhs = ":NvimTreeToggle<CR>", desc = "Toggle NvimTree" },
-}
-
 -- Nvim-tree setup
 function M.setup()
   require('nvim-tree').setup({
