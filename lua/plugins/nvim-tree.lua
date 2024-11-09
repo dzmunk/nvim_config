@@ -7,9 +7,12 @@ function M.setup()
     git = {
       enable = false,
     },
+    sync_root_with_cwd = true,
+    disable_netrw = true,
+    hijack_cursor = true,
     update_focused_file = {
       enable = true,
-      update_root = true,
+      update_root = false,
     },
   })
 end
