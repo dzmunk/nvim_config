@@ -88,6 +88,7 @@ require('lazy').setup({
       "hrsh7th/cmp-nvim-lsp",  -- LSP source for nvim-cmp
       "hrsh7th/cmp-buffer",    -- Buffer source for nvim-cmp
       "hrsh7th/cmp-path",      -- Path source for nvim-cmp
+      "L3MON4D3/LuaSnip",       -- Snippet engine
     },
     config = function()
       require('plugins.cmp').setup()
