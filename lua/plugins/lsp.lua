@@ -11,6 +11,15 @@ M.servers = { 'clangd', 'pyright', 'bashls', 'lua_ls' }
 M.setup = function()
   local lspconfig = require('lspconfig')
 
+  -- Configure diagnostics globally
+  vim.diagnostic.config({
+    virtual_text = true,  -- Show inline diagnostics
+    float = {
+      max_width = 80,     -- Set a maximum width for the floating window
+      wrap = true,        -- Enable text wrapping
+    },
+  })
+
   -- Load cmp_nvim_lsp here, after Lazy.nvim has loaded dependencies
   local cmp_lsp = require('cmp_nvim_lsp')
 
