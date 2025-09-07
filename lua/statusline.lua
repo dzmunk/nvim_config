@@ -1,111 +1,153 @@
--- Function to check if the current directory is a Git repository
-local function is_git_repo()
-  local git_dir = vim.fn.finddir('.git', vim.fn.expand('%:p:h') .. ';')
-  return git_dir ~= nil and #git_dir > 0
-end
+local M = {}
 
--- Function to get the Git branch name
-local git_branch = ''
-local function update_git_branch()
-  if is_git_repo() then
-    local handle = io.popen('git -C "' .. vim.fn.fnamemodify(vim.fn.expand('%:p:h'), ':h') .. '" branch --show-current 2>/dev/null')
-    if handle then
-      local branch_name = handle:read("*a"):gsub("\n", "")
-      handle:close()
-      if branch_name ~= '' then
-        git_branch = '  ' .. branch_name .. ' '
-      else
-        git_branch = ''
-      end
-    end
-  else
-    git_branch = ''
-  end
-end
+local have_nerd_font = true
 
--- Expose git_branch to the global namespace
-_G.git_branch = function()
-  return git_branch
-end
+local icons = have_nerd_font and {
+  sep_left   = '',
+  sep_right  = '',
+  git        = '',
+  diag = { ERROR = '', WARN = '', INFO = '', HINT = '' },
+} or {
+  sep_left   = '[',
+  sep_right  = ']',
+  git        = 'git:',
+  diag = { ERROR = 'E', WARN = 'W', INFO = 'I', HINT = 'H' },
+}
 
--- Create autocommand to update Git branch on relevant events
-vim.api.nvim_create_autocmd(
-  {"BufEnter", "FocusGained", "ShellCmdPost"},
-  { callback = update_git_branch }
-)
-
--- Function to get the current mode
-local function mode()
-  local modes = {
-    ['n']  = 'NORMAL',
-    ['no'] = 'O-PENDING',
-    ['v']  = 'VISUAL',
-    ['V']  = 'V-LINE',
-    [''] = 'V-BLOCK', -- Ctrl-v in terminal
-    ['i']  = 'INSERT',
-    ['ic'] = 'INSERT',
-    ['R']  = 'REPLACE',
-    ['Rv'] = 'V-REPLACE',
-    ['c']  = 'COMMAND',
-    ['cv'] = 'COMMAND',
-    ['ce'] = 'COMMAND',
-    ['r']  = 'PROMPT',
-    ['rm'] = 'MORE',
-    ['r?'] = 'CONFIRM',
-    ['!']  = 'SHELL',
-    ['t']  = 'TERMINAL',
-  }
+local mode_names = {
+  n   = 'NORMAL',  no  = 'O-PEND',
+  v   = 'VISUAL',  V   = 'V-LINE', ['\22'] = 'V-BLOCK',
+  i   = 'INSERT',  R   = 'REPLACE',
+  c   = 'CMD',     s   = 'SELECT', S = 'SELECT', ['\19'] = 'SELECT',
+  t   = 'TERM',
+}
+local function mode_component()
   local m = vim.api.nvim_get_mode().mode
-  return modes[m] or 'UNKNOWN'
+  local name = mode_names[m] or 'UNKNOWN'
+  return ('%%#StatusLine#%s%s %s %s'):format(icons.sep_left, '%#StatusLine#', name, icons.sep_right)
 end
 
--- Expose the mode function for use in v:lua
-_G.mode = mode
-
--- Function to get the file path or CWD if no file is open
-local function file_or_cwd()
-  local bufname = vim.fn.bufname('%')
-  if bufname == '' then
-    return vim.fn.getcwd() -- Return the current working directory
-  else
-    return bufname -- Return the file path
-  end
+local function file_component()
+  local name = vim.api.nvim_buf_get_name(0)
+  if name == '' then return '[No Name]' end
+  return vim.fn.fnamemodify(name, ':.')
 end
 
--- Expose file_or_cwd for use in v:lua
-_G.file_or_cwd = file_or_cwd
-
--- Function to get the file encoding
-local function file_encoding()
-  local encoding = vim.bo.fenc ~= '' and vim.bo.fenc or vim.o.enc -- File or default encoding
-  return encoding
+local function flags_component()
+  local parts = {}
+  if vim.bo.modified then table.insert(parts, '+') end
+  if not vim.bo.modifiable or vim.bo.readonly then table.insert(parts, ' (Read Only)') end
+  return table.concat(parts, ' ')
 end
 
--- Expose file_encoding for use in v:lua
-_G.file_encoding = file_encoding
-
--- Function to get line ending type
-local function line_ending()
-  local endings = {
-    ['unix'] = 'LF',
-    ['dos'] = 'CRLF',
-    ['mac'] = 'CR'
-  }
-  return endings[vim.bo.fileformat] or vim.bo.fileformat
+local git_cache = {}
+local function buf_dir()
+  local name = vim.api.nvim_buf_get_name(0)
+  return name ~= '' and vim.fn.fnamemodify(name, ':h') or vim.loop.cwd()
 end
 
--- Expose line_ending for use in v:lua
-_G.line_ending = line_ending
+local function update_git_branch()
+  local dir = buf_dir()
+  if not dir or dir == '' then return end
 
--- Set the statusline
-vim.o.statusline = table.concat({
-  "%#TbTabCloseBtn# %{v:lua.mode()} ",             -- Mode
-  "%#TbBufOn# %{v:lua.file_or_cwd()} ",      -- File path or CWD
-  "%m ",                                     -- Modified flag
-  "%r ",                                     -- Readonly flag
-  "%#TbBufOnModified# %{v:lua.git_branch()} ", -- Git branch
-  "%=",                                      -- Align right
-  "%#TbBufOff# %y[%{v:lua.file_encoding()}|%{v:lua.line_ending()}] ", -- File type, encoding, and line ending
-  "Ln %l/%L, Col %c ",                       -- Line and column
-  "%#TbTabCloseBtn# [%p%%]"                -- Percentage
+  local root = vim.fs.find('.git', { upward = true, path = dir })[1]
+  if not root then git_cache[dir] = nil; return end
+
+  vim.system({ 'git', '-C', dir, 'branch', '--show-current' }, { text = true }, function(res)
+    local out = (res.stdout or ''):gsub('%s+$', '')
+    git_cache[dir] = (out ~= '') and out or nil
+    vim.schedule(vim.cmd.redrawstatus)
+  end)
+end
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained' }, {
+  group = vim.api.nvim_create_augroup('statusline_git', { clear = true }),
+  callback = update_git_branch,
 })
+
+local function git_component()
+  local dir = buf_dir()
+  local branch = dir and git_cache[dir] or nil
+  if not branch or branch == '' then return '' end
+  return ('%s %s'):format(icons.git, branch)
+end
+
+local function diagnostics_component()
+  local diags = vim.diagnostic.get(0)
+  if #diags == 0 then return '' end
+
+  local counts = { ERROR = 0, WARN = 0, INFO = 0, HINT = 0 }
+  for _, d in ipairs(diags) do
+    local lvl = vim.diagnostic.severity[d.severity]
+    counts[lvl] = counts[lvl] + 1
+  end
+
+  local parts = {}
+  for _, key in ipairs({ 'ERROR', 'WARN', 'INFO', 'HINT' }) do
+    local n = counts[key]
+    if n > 0 then table.insert(parts, ('%s %d'):format(icons.diag[key], n)) end
+  end
+  return table.concat(parts, ' ')
+end
+
+local function fileinfo_component()
+  local ft = (vim.bo.filetype ~= '' and vim.bo.filetype) or 'none'
+  local enc = (vim.bo.fenc ~= '' and vim.bo.fenc) or vim.o.enc
+  local eol = ({ unix = 'LF', dos = 'CRLF', mac = 'CR' })[vim.bo.fileformat] or vim.bo.fileformat
+  return ('%s  [%s|%s]'):format(ft, enc, eol)
+end
+
+local function position_component()
+  return ('Ln %d/%d, Col %d  [%d%%%%]'):format(
+    vim.fn.line('.'),
+    vim.api.nvim_buf_line_count(0),
+    vim.fn.virtcol('.'),
+    vim.fn.line('.') * 100 / math.max(1, vim.api.nvim_buf_line_count(0))
+  )
+end
+
+local lsp_progress = nil
+vim.api.nvim_create_autocmd('LspProgress', {
+  group = vim.api.nvim_create_augroup('statusline_lsp', { clear = true }),
+  callback = function(args)
+    if not args.data then return end
+    local v = args.data.params.value
+    if v.kind == 'end' then
+      lsp_progress = nil
+      vim.defer_fn(vim.cmd.redrawstatus, 1000)
+    else
+      lsp_progress = (v.title or 'LSP')
+      vim.cmd.redrawstatus()
+    end
+  end,
+})
+local function lsp_component()
+  return lsp_progress and ('LSP: ' .. lsp_progress) or ''
+end
+
+function M.render()
+  local left = table.concat({
+    mode_component(),
+    ' ',
+    file_component(),
+    '',
+    flags_component(),
+    ' ',
+    git_component(),
+    ' ',
+    lsp_component(),
+  })
+
+  local right = table.concat({
+    diagnostics_component(),
+    '   ',
+    fileinfo_component(),
+    '   ',
+    position_component(),
+  })
+
+  return table.concat({ left, '%=', right, ' ' })
+end
+
+vim.o.statusline = "%!v:lua.require'statusline'.render()"
+return M

@@ -1,13 +1,28 @@
--- keybindings.lua
-vim.g.mapleader = ' '  -- Set leader key to space
+-- Space as leader
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-local map = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
+local map = vim.keymap.set
 
--- Better window navigation
-map('n', '<C-h>', '<C-w>h', opts)
-map('n', '<C-j>', '<C-w>j', opts)
-map('n', '<C-k>', '<C-w>k', opts)
-map('n', '<C-l>', '<C-w>l', opts)
-map('n', '<leader>b', ':enew<CR>', { desc = "New file", silent = true })
--- map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch", silent = true })
+-- Window navigation
+map('n', '<C-h>', '<C-w>h', { remap = true })
+map('n', '<C-j>', '<C-w>j', { remap = true })
+map('n', '<C-k>', '<C-w>k', { remap = true })
+map('n', '<C-l>', '<C-w>l', { remap = true })
+
+-- Pop up menu navigation
+map('i', '<Tab>', function()
+  return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>'
+end, { expr = true, desc = 'Next completion or tab' })
+
+map('i', '<S-Tab>', function()
+  return vim.fn.pumvisible() == 1 and '<C-p>' or '<S-Tab>'
+end, { expr = true, desc = 'Previous completion or shift-tab' })
+
+-- Smart escape
+map({ 'i', 'v', 'n' }, '<esc>', function()
+    if vim.v.hlsearch == 1 then
+        vim.cmd('noh')
+    end
+    return '<esc>'
+end, { expr = true, desc = 'escape and clear highlights' })

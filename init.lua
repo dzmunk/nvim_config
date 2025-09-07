@@ -1,24 +1,44 @@
--- init.lua
+vim.cmd.colorscheme 'personal'
 
--- Set up Lazy.nvim path and load it first
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "--branch=stable", -- latest stable release
-    "https://github.com/folke/lazy.nvim.git",
-    lazypath,
-  })
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.uv.fs_stat(lazypath) then
+    vim.fn.system {
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable',
+        lazypath,
+    }
 end
-vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp = vim.opt.rtp ^ lazypath
 
--- Load general configurations
+local plugins = 'plugins'
+
 require('options')
 require('keymaps')
-require('theme')
 require('statusline')
+require('lsp')
 
--- Load plugins
-require('plugins.lazy')
+require('lazy').setup(plugins, {
+    install = {
+        missing = true,
+    },
+    change_detection = { notify = false },
+    rocks = {
+        enabled = false,
+    },
+    performance = {
+        rtp = {
+            disabled_plugins = {
+                'gzip',
+                'netrwPlugin',
+                'rplugin',
+                'tarPlugin',
+                'tohtml',
+                'tutor',
+                'zipPlugin',
+            },
+        },
+    },
+})
