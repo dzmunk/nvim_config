@@ -3,6 +3,7 @@ local opt = vim.opt
 opt.winborder = 'rounded'
 opt.clipboard = 'unnamedplus'
 opt.completeopt = { 'menu', 'menuone', 'noinsert', 'noselect' }
+opt.complete = ".,w,b,u,t,k,s"
 opt.grepformat = '%f:%l:%c:%m'
 opt.grepprg = 'rg --vimgrep'
 opt.inccommand = 'nosplit'
