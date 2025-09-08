@@ -35,7 +35,7 @@ end
 
 local function flags_component()
   local parts = {}
-  if vim.bo.modified then table.insert(parts, '+') end
+  if vim.bo.modified then table.insert(parts, ' (+)') end
   if not vim.bo.modifiable or vim.bo.readonly then table.insert(parts, ' (Read Only)') end
   return table.concat(parts, ' ')
 end
