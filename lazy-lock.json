@@ -1,10 +1,10 @@
 {
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
-  "fzf-lua": { "branch": "main", "commit": "724e8f008d33ecf4c78a1bbff3571878eea53f66" },
+  "fzf-lua": { "branch": "main", "commit": "ce5a5fa2902933e7b4563ca78210254169463cb6" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "mason.nvim": { "branch": "main", "commit": "7dc4facca9702f95353d5a1f87daf23d78e31c2a" },
   "mini.bufremove": { "branch": "main", "commit": "e60941ab23eb0679f0da0e92ac0b572425756dc2" },
   "mini.clue": { "branch": "main", "commit": "2d361459de6a5fd7ea20a14ee4b95c6caec383b9" },
-  "nvim-tree.lua": { "branch": "master", "commit": "fefa335f1c8f690eb668a1efd18ee4fc6d64cd3e" },
+  "nvim-tree.lua": { "branch": "master", "commit": "e179ad2f83b5955ab0af653069a493a1828c2697" },
   "nvim-treesitter": { "branch": "master", "commit": "42fc28ba918343ebfd5565147a42a26580579482" }
 }

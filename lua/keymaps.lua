@@ -19,6 +19,13 @@ map('i', '<S-Tab>', function()
   return vim.fn.pumvisible() == 1 and '<C-p>' or '<S-Tab>'
 end, { expr = true, desc = 'Previous completion or shift-tab' })
 
+map('i', '<C-Space>', function()
+  if vim.fn.pumvisible() == 1 then
+    return ''
+  end
+  return '<C-n>'
+end, { expr = true, desc = 'Trigger completion menu' })
+
 -- Smart escape
 map({ 'i', 'v', 'n' }, '<esc>', function()
     if vim.v.hlsearch == 1 then
