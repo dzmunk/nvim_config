@@ -12,18 +12,18 @@ map('n', '<C-l>', '<C-w>l', { remap = true })
 
 -- Pop up menu navigation
 map('i', '<Tab>', function()
-  return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>'
+    return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>'
 end, { expr = true, desc = 'Next completion or tab' })
 
 map('i', '<S-Tab>', function()
-  return vim.fn.pumvisible() == 1 and '<C-p>' or '<S-Tab>'
+    return vim.fn.pumvisible() == 1 and '<C-p>' or '<S-Tab>'
 end, { expr = true, desc = 'Previous completion or shift-tab' })
 
 map('i', '<C-Space>', function()
-  if vim.fn.pumvisible() == 1 then
-    return ''
-  end
-  return '<C-n>'
+    if vim.fn.pumvisible() == 1 then
+        return ''
+    end
+    return '<C-n>'
 end, { expr = true, desc = 'Trigger completion menu' })
 
 -- Smart escape

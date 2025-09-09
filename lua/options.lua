@@ -2,8 +2,13 @@ local opt = vim.opt
 
 opt.winborder = 'rounded'
 opt.clipboard = 'unnamedplus'
-opt.completeopt = { 'menu', 'menuone', 'noinsert' }
-opt.complete = ".,w,b,t"
+opt.autocomplete = false
+opt.completeopt = { 'popup', 'menu', 'menuone', 'noinsert', 'noselect', 'fuzzy' }
+opt.completefuzzycollect = { 'keyword', 'files' }
+opt.complete = '.,w^5,b^5,o^5'
+opt.pumheight = 5
+vim.g.autocompletedelay = 120
+vim.g.autocompletetimeout = 120
 opt.grepformat = '%f:%l:%c:%m'
 opt.grepprg = 'rg --vimgrep --smartcase'
 opt.inccommand = 'nosplit'
