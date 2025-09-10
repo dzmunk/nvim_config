@@ -2,6 +2,8 @@ vim.lsp.enable({
     'clangd',
     'lua_ls',
     'pyright',
+    'ts_ls',
+    'bashls',
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -11,7 +13,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         if not client then return end
         if  client:supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = false})
+            vim.lsp.completion.enable(true, client.id, bufnr, {
+                autotrigger = false,
+                convert = function(item)
+                    return { abbr = item.label:gsub('%b()', '') }
+                end,
+            })
         end
         if client:supports_method('textDocument/definition') then
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition,  { buffer = bufnr, silent = true, desc = 'Go to definition' })
@@ -37,4 +44,3 @@ vim.diagnostic.config({
         focusable = false,
     },
 })
-
