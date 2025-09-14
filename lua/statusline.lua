@@ -13,12 +13,20 @@ local icons = have_nerd_font and {
 }
 
 local mode_names = {
-    n   = 'NORMAL',  no  = 'O-PEND',
-    v   = 'VISUAL',  V   = 'V-LINE', ['\22'] = 'V-BLOCK',
-    i   = 'INSERT',  R   = 'REPLACE',
-    c   = 'CMD',     s   = 'SELECT', S = 'SELECT', ['\19'] = 'SELECT',
+    n   = 'NORMAL',  
+    no  = 'O-PEND',
+    v   = 'VISUAL',  
+    V   = 'V-LINE', 
+    ['\22'] = 'V-BLOCK',
+    i   = 'INSERT',  
+    R   = 'REPLACE',
+    c   = 'CMD',     
+    s   = 'SELECT', 
+    S = 'SELECT', 
+    ['\19'] = 'SELECT',
     t   = 'TERM',
 }
+
 local function mode_component()
     local m = vim.api.nvim_get_mode().mode
     local name = mode_names[m] or 'UNKNOWN'
