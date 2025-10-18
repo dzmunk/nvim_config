@@ -66,13 +66,20 @@ return {
     on_attach = function(client, bufnr)
         if client:supports_method('textDocument/switchSourceHeader') then
             vim.keymap.set('n', 'go', function()
-                switch_source_header(bufnr, client) 
+                switch_source_header(bufnr, client)
             end, { desc = 'Switch between source/header', buffer = bufnr })
         end
         if client:supports_method('textDocument/symbolInfo') then
-            vim.keymap.set('n', 'gs', function() 
-                symbol_info(bufnr, client) 
+            vim.keymap.set('n', 'gs', function()
+                symbol_info(bufnr, client)
             end, { desc = 'Show symbol info', buffer = bufnr })
+        end
+        if client:supports_method('textDocument/prepareCallHierarchy') then
+            vim.keymap.set('n', 'gru', vim.lsp.buf.incoming_calls,
+                { desc = 'vim.lsp.buf.incoming_calls', buffer = bufnr })
+
+            vim.keymap.set('n', 'grl', vim.lsp.buf.outgoing_calls,
+                { desc = 'vim.lsp.buf.outgoing_calls', buffer = bufnr })
         end
     end,
 }
