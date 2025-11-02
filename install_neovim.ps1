@@ -34,8 +34,7 @@ cmake --build $DEPS --config Release --parallel
 cmake -S $DIR -B $BUILD -G Ninja `
   -DCMAKE_BUILD_TYPE=Release `
   -DCMAKE_INSTALL_PREFIX="$INSTALL" `
-  -DCMAKE_PREFIX_PATH="$(Join-Path $DEPS 'usr')" `
-  -DUSE_BUNDLED=ON
+  -DCMAKE_PREFIX_PATH="$(Join-Path $DEPS 'usr')"
 
 cmake --build $BUILD --config Release
 cmake --install $BUILD
