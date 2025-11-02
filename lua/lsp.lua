@@ -21,10 +21,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
             })
         end
         if client:supports_method('textDocument/definition') then
-            vim.keymap.set('n', 'gd', vim.lsp.buf.definition,  { buffer = bufnr, silent = true, desc = 'Go to definition' })
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition,  
+                { buffer = bufnr, silent = true, desc = 'Go to definition' })
         end
         if client:supports_method('textDocument/declaration') then
-            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, silent = true, desc = 'Go to declaration' })
+            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, 
+                { buffer = bufnr, silent = true, desc = 'Go to declaration' })
+        end
+        if client:supports_method('textDocument/prepareCallHierarchy') then
+            vim.keymap.set('n', 'gru', vim.lsp.buf.incoming_calls,
+                { desc = 'vim.lsp.buf.incoming_calls', buffer = bufnr })
+
+            vim.keymap.set('n', 'grl', vim.lsp.buf.outgoing_calls,
+                { desc = 'vim.lsp.buf.outgoing_calls', buffer = bufnr })
         end
     end,
 })
