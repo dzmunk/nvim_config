@@ -74,12 +74,5 @@ return {
                 symbol_info(bufnr, client)
             end, { desc = 'Show symbol info', buffer = bufnr })
         end
-        if client:supports_method('textDocument/prepareCallHierarchy') then
-            vim.keymap.set('n', 'gru', vim.lsp.buf.incoming_calls,
-                { desc = 'vim.lsp.buf.incoming_calls', buffer = bufnr })
-
-            vim.keymap.set('n', 'grl', vim.lsp.buf.outgoing_calls,
-                { desc = 'vim.lsp.buf.outgoing_calls', buffer = bufnr })
-        end
     end,
 }
