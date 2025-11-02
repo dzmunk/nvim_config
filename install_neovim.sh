@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+# Usage:
+#   chmod +x install_noevim.sh
+#   ./install_neovim.sh
+#   ./install_neovim.sh --uninstall
+
 set -euo pipefail
 
 DIR="$HOME/neovim"
