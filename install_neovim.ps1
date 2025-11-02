@@ -1,6 +1,6 @@
 # Usage:
-#   .\build-neovim.ps1
-#   .\build-neovim.ps1 --uninstall
+#   .\install_neovim.ps1
+#   .\install_neovim.ps1 --uninstall
 
 $ErrorActionPreference = "Stop"
 
