@@ -1,43 +1,57 @@
-local opt = vim.opt
+local o  = vim.o
+local wo = vim.wo
+local bo = vim.bo
+local g  = vim.g
 
-opt.winborder = 'rounded'
-opt.clipboard = 'unnamedplus'
-opt.autocomplete = false
-opt.completeopt = { 'popup', 'menu', 'menuone', 'noinsert', 'fuzzy' }
-opt.completefuzzycollect = { 'keyword', 'files' }
-opt.complete = '.,w^5,b^5,o^5'
-opt.pumheight = 5
-vim.g.autocompletedelay = 120
-vim.g.autocompletetimeout = 120
-opt.grepformat = '%f:%l:%c:%m'
-opt.grepprg = 'rg --vimgrep --smartcase'
-opt.inccommand = 'nosplit'
-opt.jumpoptions = 'view'
-opt.splitkeep = 'screen'
-opt.signcolumn = 'yes'
-opt.mouse = 'a'
-opt.pumheight = 10
-opt.laststatus = 3
-opt.scrolloff = 4
-opt.sidescrolloff = 8
-opt.linebreak = false
-opt.list = true
-opt.confirm = true
-opt.number = true
-opt.shiftround = true
-opt.relativenumber = false
-opt.wrap = false
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.expandtab = true
-opt.smartindent = true
-opt.cursorline = true
-opt.splitbelow = true
-opt.undofile = false
-opt.splitright = true
-opt.ignorecase = true
-opt.smartcase = true
-opt.virtualedit = 'block'
-opt.winminwidth = 5
-opt.smoothscroll = true
-opt.updatetime = 500
+o.winborder = "rounded"
+o.laststatus = 3
+o.signcolumn = "yes"
+o.splitbelow = true
+o.splitright = true
+o.splitkeep = "screen"
+o.winminwidth = 5
+o.smoothscroll = true
+
+wo.number = true
+wo.relativenumber = false
+wo.cursorline = true
+wo.wrap = false
+wo.linebreak = false
+wo.list = true
+
+o.mouse = "a"
+o.scrolloff = 4
+o.sidescrolloff = 8
+o.confirm = true
+o.updatetime = 500
+
+o.ignorecase = true
+o.smartcase = true
+o.inccommand = "nosplit"
+
+o.grepformat = "%f:%l:%c:%m"
+o.grepprg = "rg --vimgrep --smartcase"
+
+o.autocomplete = false
+o.completeopt = "popup,menu,menuone,noinsert,fuzzy"
+o.completefuzzycollect = "keyword,files"
+o.complete = ".,w^5,b^5,o^5"
+o.pumheight = 10
+
+bo.tabstop = 4
+bo.shiftwidth = 4
+bo.expandtab = true
+bo.smartindent = true
+
+o.shiftround = true
+
+o.undofile = false
+o.virtualedit = "block"
+
+g.autocompletedelay = 120
+g.autocompletetimeout = 120
+
+ --g.clipboard = "osc52"
+o.clipboard = "unnamedplus"
+
+o.jumpoptions = "view"
