@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Usage:
-#   chmod +x install_noevim.sh
+#   chmod +x install_neovim.sh
 #   ./install_neovim.sh
 #   ./install_neovim.sh --uninstall
 
