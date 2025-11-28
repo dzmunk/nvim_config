@@ -40,10 +40,10 @@ o.complete            = ".,w^5,b^5,o^5"
 o.pumheight           = 5
 -- o.pumborder        = "rounded"
 
-bo.tabstop     = 4
-bo.shiftwidth  = 4
-bo.expandtab   = true
-bo.smartindent = true
+o.tabstop     = 4
+o.shiftwidth  = 4
+o.expandtab   = true
+o.smartindent = true
 o.shiftround   = true
 
 o.undofile    = false
