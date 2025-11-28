@@ -30,7 +30,7 @@ o.smartcase = true
 o.inccommand = "nosplit"
 
 o.grepformat = "%f:%l:%c:%m"
-o.grepprg = "rg --vimgrep --smartcase"
+o.grepprg = "rg --vimgrep --smart-case"
 
 o.autocomplete = false
 o.completeopt = "popup,menu,menuone,noinsert,fuzzy"
