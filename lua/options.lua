@@ -1,56 +1,52 @@
-vim.lsp.enable({
-    'clangd',
-    'lua_ls',
-    'pyright',
-    'ts_ls',
-    'bashls',
-})
+local o  = vim.o
+local wo = vim.wo
+local bo = vim.bo
+local g  = vim.g
 
-vim.api.nvim_create_autocmd('LspAttach', {
-    group = vim.api.nvim_create_augroup('my.lsp.attach', { clear = true }),
-    callback = function(ev)
-        local bufnr = ev.buf
-        local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if not client then return end
-        if  client:supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, bufnr, {
-                autotrigger = false,
-                convert = function(item)
-                    return { abbr = item.label:gsub('%b()', '') }
-                end,
-            })
-            vim.bo.complete = "o"
-        end
-        if client:supports_method('textDocument/definition') then
-            vim.keymap.set('n', 'gd', vim.lsp.buf.definition,
-                { buffer = bufnr, silent = true, desc = 'Go to definition' })
-        end
-        if client:supports_method('textDocument/declaration') then
-            vim.keymap.set('n', 'gD', vim.lsp.buf.declaration,
-                { buffer = bufnr, silent = true, desc = 'Go to declaration' })
-        end
-        if client:supports_method('textDocument/prepareCallHierarchy') then
-            vim.keymap.set('n', 'gru', vim.lsp.buf.incoming_calls,
-                { desc = 'vim.lsp.buf.incoming_calls', buffer = bufnr })
+o.winborder    = "rounded"
+o.laststatus   = 3
+o.signcolumn   = "yes"
+o.splitbelow   = true
+o.splitright   = true
+o.splitkeep    = "screen"
+o.winminwidth  = 5
+o.smoothscroll = true
 
-            vim.keymap.set('n', 'grl', vim.lsp.buf.outgoing_calls,
-                { desc = 'vim.lsp.buf.outgoing_calls', buffer = bufnr })
-        end
-    end,
-})
+wo.number         = true
+wo.relativenumber = false
+wo.cursorline     = true
+wo.wrap           = false
+wo.linebreak      = false
+wo.list           = true
 
-vim.keymap.set('n', '<leader>dl', function()
-    vim.diagnostic.setloclist({ open = true })
-end, { desc = 'Open diagnostics location list' })
+o.mouse         = "a"
+o.scrolloff     = 4
+o.sidescrolloff = 8
+o.confirm       = true
+o.updatetime    = 500
 
-vim.diagnostic.config({
-    underline = true,
-    virtual_lines = { current_line = true },
-    virtual_text = false,
-    update_in_insert = false,
-    severity_sort = true,
-    float = {
-        source = 'if_many',
-        focusable = false,
-    },
-})
+o.ignorecase = true
+o.smartcase  = true
+o.inccommand = "nosplit"
+
+o.grepformat = "%f:%l:%c:%m"
+o.grepprg    = "rg --vimgrep --smart-case"
+
+o.autocomplete = false
+o.completeopt  = "popup,menu,menuone,noinsert,fuzzy"
+o.complete     = ".,w^5,b^5"
+o.pumheight    = 5
+
+o.tabstop     = 4
+o.shiftwidth  = 4
+o.expandtab   = true
+o.smartindent = true
+o.shiftround  = true
+
+o.undofile    = false
+o.virtualedit = "block"
+
+-- g.clipboard = "osc52"
+o.clipboard   = "unnamedplus"
+
+o.jumpoptions = "view"
