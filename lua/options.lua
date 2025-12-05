@@ -33,12 +33,9 @@ o.grepformat = "%f:%l:%c:%m"
 o.grepprg    = "rg --vimgrep --smart-case"
 
 o.autocomplete        = false
--- o.autocompletedelay   = 120
--- o.autocompletetimeout = 120
-o.completeopt         = "menu,menuone,noinsert,fuzzy,nosort,popup"
-o.complete            = "o,.,w^5,b^5"
+o.completeopt         = "popup,menu,menuone,noinsert,fuzzy"
+o.complete            = ".,w^5,b^5"
 o.pumheight           = 5
-o.pumborder           = "rounded"
 
 o.tabstop     = 4
 o.shiftwidth  = 4
