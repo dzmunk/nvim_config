@@ -12,11 +12,11 @@ map('n', '<C-l>', '<C-w>l', { remap = true })
 
 -- Pop up menu navigation
 map('i', '<Tab>', function()
-    return vim.fn.pumvisible() == 1 and '<C-n>' or '<Tab>'
+    return vim.fn.pumvisible() == 1 and '<Down>' or '<Tab>'
 end, { expr = true, desc = 'Next completion or tab' })
 
 map('i', '<S-Tab>', function()
-    return vim.fn.pumvisible() == 1 and '<C-p>' or '<S-Tab>'
+    return vim.fn.pumvisible() == 1 and '<Up>' or '<S-Tab>'
 end, { expr = true, desc = 'Previous completion or shift-tab' })
 
 map('i', '<C-Space>', function()
