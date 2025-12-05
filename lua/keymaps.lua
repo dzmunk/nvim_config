@@ -32,4 +32,4 @@ map({ 'i', 'v', 'n' }, '<esc>', function()
         vim.cmd('noh')
     end
     return '<esc>'
-end, { expr = true, desc = 'escape and clear highlights' })
+end, { expr = true, desc = 'Escape and clear highlights' })
