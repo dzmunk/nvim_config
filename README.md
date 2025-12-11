@@ -22,6 +22,8 @@ winget install -e --id BurntSushi.ripgrep.MSVC
 
 winget install -e --id sharkdp.fd
 
+winget install -e --id junegunn.fzf
+
 winget install -e --id Neovim.Neovim.Nightly
 
 git clone https://github.com/dzmunk/nvim_config.git C:\Users\{YOUR_USER}\AppData\Local\nvim
