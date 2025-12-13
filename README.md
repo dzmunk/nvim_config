@@ -28,13 +28,52 @@ winget install -e --id Neovim.Neovim.Nightly
 
 git clone https://github.com/dzmunk/nvim_config.git C:\Users\{YOUR_USER}\AppData\Local\nvim
 
-In windows terminal settings json include the following in order to fix ctrl+h navigation:
-"actions": [
-  {
-    "id": "User.CtrlH.CSIu",
-    "command": { "action": "sendInput", "input": "\u001b[104;5u" }
-  }
-],
-"keybindings": [
-  { "keys": "ctrl+h", "id": "User.CtrlH.CSIu" }
-]
+In windows terminal settings json include the following:
+{
+    "actions": 
+    [
+        {
+            "command": 
+            {
+                "action": "sendInput",
+                "input": "\u001b[104;5u"
+            },
+            "id": "User.CtrlH.CSIu"
+        }
+    ],
+    "keybindings": 
+    [
+        {
+            "id": "User.CtrlH.CSIu",
+            "keys": "ctrl+h"
+        },
+        {
+            "id": "Terminal.FindText",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+shift+c"
+        },
+        {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+shift+v"
+        },
+        {
+            "id": "Terminal.DuplicatePaneAuto",
+            "keys": "alt+shift+d"
+        }
+    ],
+    "profiles": 
+    {
+        "defaults": 
+        {
+            "font": 
+            {
+                "face": "JetBrainsMonoNL Nerd Font"
+            },
+            "padding": "0, 0, 0, 0",
+            "scrollbarState": "hidden"
+        },
+    }
+}
