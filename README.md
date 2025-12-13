@@ -18,6 +18,8 @@ git clone https://github.com/dzmunk/nvim_config.git ~/.config/nvim
 
 Windows:
 
+download and install the NL version of the Jetbrains Mono Font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip
+
 winget install -e --id BurntSushi.ripgrep.MSVC
 
 winget install -e --id sharkdp.fd
@@ -27,6 +29,8 @@ winget install -e --id junegunn.fzf
 winget install -e --id Neovim.Neovim.Nightly
 
 git clone https://github.com/dzmunk/nvim_config.git C:\Users\{YOUR_USER}\AppData\Local\nvim
+
+Download c++ build tools with clang extension for microsoft and run neovim once inside Developer Powershell for VS to compile plugins: https://aka.ms/vs/stable/vs_BuildTools.exe
 
 In windows terminal settings json include the following:
 {
