@@ -30,7 +30,7 @@ winget install -e --id Neovim.Neovim.Nightly
 
 git clone https://github.com/dzmunk/nvim_config.git C:\Users\{YOUR_USER}\AppData\Local\nvim
 
-Download c++ build tools with clang extension for microsoft and run neovim once inside Developer Powershell for VS to compile plugins: https://aka.ms/vs/stable/vs_BuildTools.exe
+Download c++ build tools with clang extension for microsoft and run neovim once inside "Developer Powershell for VS" to compile plugins: https://aka.ms/vs/stable/vs_BuildTools.exe
 
 In windows terminal settings json include the following:
 {
