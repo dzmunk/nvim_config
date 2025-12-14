@@ -43,6 +43,14 @@ In windows terminal settings json include the following:
                 "input": "\u001b[104;5u"
             },
             "id": "User.CtrlH.CSIu"
+        },
+        {
+            "command":
+            {
+                "action": "sendInput",
+                "input": "\u001b[32;5u"
+            },
+            "id": "User.sendInput.CtrlSpace.CSIu"
         }
     ],
     "keybindings": 
@@ -50,6 +58,10 @@ In windows terminal settings json include the following:
         {
             "id": "User.CtrlH.CSIu",
             "keys": "ctrl+h"
+        },
+        {
+            "id": "User.CtrlSpace.CSIu",
+            "keys": "ctrl+space"
         },
         {
             "id": "Terminal.FindText",
