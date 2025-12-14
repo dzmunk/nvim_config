@@ -50,7 +50,7 @@ In windows terminal settings json include the following:
                 "action": "sendInput",
                 "input": "\u001b[32;5u"
             },
-            "id": "User.sendInput.CtrlSpace.CSIu"
+            "id": "User.CtrlSpace.CSIu"
         }
     ],
     "keybindings": 
