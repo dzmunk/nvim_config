@@ -12,6 +12,18 @@ return {
             hijack_netrw = true,
             hijack_cursor = true,
 
+            filesystem_watchers = {
+                enable = true,
+                ignore_dirs = {
+                    '/node_modules',
+                    '/%.git',
+                    '/dist',
+                    '/build',
+                    '/target',
+                    '/%.cache',
+                },
+            },
+
             renderer = {
                 root_folder_label = false,
                 group_empty = true,
@@ -32,7 +44,7 @@ return {
             },
 
             diagnostics = { enable = false, show_on_dirs = false },
-            filters = { dotfiles = true, git_ignored = true },
+            filters = { dotfiles = false, git_ignored = false },
             view = { signcolumn = 'no' },
         },
     },
