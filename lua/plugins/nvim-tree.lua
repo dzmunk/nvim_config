@@ -13,7 +13,7 @@ return {
             hijack_cursor = true,
 
             filesystem_watchers = {
-                enable = true,
+                enable = false,
                 ignore_dirs = {
                     '/node_modules',
                     '/%.git',
