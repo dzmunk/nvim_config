@@ -18,6 +18,7 @@ return {
                     '/node_modules',
                     '/%.git',
                     '/dist',
+                    '/bin',
                     '/build',
                     '/target',
                     '/%.cache',
