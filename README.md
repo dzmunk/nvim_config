@@ -17,6 +17,7 @@ npm install -g tree-sitter-cli
 
 git clone https://github.com/dzmunk/nvim_config.git ~/.config/nvim
 
+-------------------------------------------------------------------------------------------------------
 
 Windows:
 
