@@ -13,12 +13,18 @@ chmod +x install_neovim.sh
 
 sudo apt install npm ripgrep fzf fd-find pip
 
+npm install -g tree-sitter-cli
+
 git clone https://github.com/dzmunk/nvim_config.git ~/.config/nvim
 
 
 Windows:
 
 download and install the NL version of the Jetbrains Mono Font https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip
+
+install node https://nodejs.org/en
+
+npm install -g tree-sitter-cli
 
 winget install -e --id BurntSushi.ripgrep.MSVC
 
