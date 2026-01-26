@@ -33,6 +33,8 @@ winget install -e --id sharkdp.fd
 
 winget install -e --id junegunn.fzf
 
+(You might need to winget settings --enable InstallerHashOverride and use --ignore-security-hash flags)
+
 winget install -e --id Neovim.Neovim.Nightly
 
 git clone https://github.com/dzmunk/nvim_config.git C:\Users\{YOUR_USER}\AppData\Local\nvim
