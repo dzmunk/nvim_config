@@ -1,7 +1,10 @@
-local o  = vim.o
-local wo = vim.wo
-local bo = vim.bo
-local g  = vim.g
+local o   = vim.o
+local wo  = vim.wo
+local bo  = vim.bo
+local g   = vim.g
+local opt = vim.opt
+
+opt.path:append("**")
 
 o.winborder    = "rounded"
 o.laststatus   = 3
