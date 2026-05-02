@@ -13,6 +13,8 @@ chmod +x install_neovim.sh
 
 sudo apt install npm ripgrep fzf fd-find pip
 
+sudo apt install ninja-build cmake gcc make gettext curl glibc-gconv-extra git
+
 npm install -g tree-sitter-cli
 
 git clone https://github.com/dzmunk/nvim_config.git ~/.config/nvim
