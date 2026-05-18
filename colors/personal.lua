@@ -7,22 +7,22 @@ vim.g.colors_name = 'personal'
 vim.o.termguicolors = true
 
 local colors = {
-  bg = '#1F1F28',
-  fg = '#DCD7BA',
-  red = '#E46876',
-  green = '#98BB6C',
-  yellow = '#E6C384',
-  blue = '#7FB4CA',
-  magenta = '#957FB8',
-  cyan = '#7AA89F',
-  white = '#C8C093',
-  orange = '#FF9E3B',
-  black = '#1F1F28',
-  black2 = '#2A2A37',
-  light_grey = '#5C5C66',
-  one_bg2 = '#3A3A4B',
-  nord_blue = '#5E81AC',
-  one_bg3 = '#464655',
+    bg = '#0F0F14',
+    fg = '#DCD7BA',
+    red = '#E46876',
+    green = '#98BB6C',
+    yellow = '#E6C384',
+    blue = '#7FB4CA',
+    magenta = '#957FB8',
+    cyan = '#7AA89F',
+    white = '#C8C093',
+    orange = '#FF9E3B',
+    black = '#1F1F28',
+    black2 = '#2A2A37',
+    light_grey = '#5C5C66',
+    one_bg2 = '#3A3A4B',
+    nord_blue = '#5E81AC',
+    one_bg3 = '#464655',
 }
 
 local hl = vim.api.nvim_set_hl
@@ -46,6 +46,14 @@ hl(0, 'PmenuThumb',     { bg = colors.one_bg3 })
 hl(0, 'TabLineSel',     { fg = colors.bg, bg = colors.fg })
 hl(0, 'TabLine',        { fg = colors.white, bg = colors.bg })
 hl(0, 'TabLineFill',    { fg = colors.bg, bg = colors.bg })
+
+hl(0, 'SignColumn',     { fg = colors.fg, bg = colors.bg })
+hl(0, 'EndOfBuffer',    { fg = colors.bg, bg = colors.bg })
+hl(0, 'WinSeparator',   { fg = colors.black2, bg = colors.bg })
+hl(0, 'VertSplit',      { fg = colors.black2, bg = colors.bg })
+hl(0, 'FoldColumn',     { fg = colors.light_grey, bg = colors.bg })
+hl(0, 'ColorColumn',    { bg = colors.black2 })
+hl(0, 'CursorColumn',   { bg = colors.black2 })
 
 hl(0, 'Comment',        { fg = colors.white, italic = true })
 hl(0, 'Constant',       { fg = colors.cyan })
