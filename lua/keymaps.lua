@@ -20,8 +20,19 @@ map('i', '<C-Space>', function()
     if vim.fn.pumvisible() == 1 then
         return ''
     end
+
+    local clients = vim.lsp.get_clients({
+        bufnr = 0,
+        method = 'textDocument/completion',
+    })
+
+    if #clients > 0 then
+        vim.lsp.completion.get()
+        return ''
+    end
+
     return '<C-n>'
-end, { expr = true, desc = 'Trigger completion menu' })
+end, { expr = true, desc = 'Trigger completion menu', })
 
 map({ 'i', 'v', 'n' }, '<esc>', function()
     if vim.v.hlsearch == 1 then
