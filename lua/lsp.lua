@@ -19,7 +19,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
                     return { abbr = item.label:gsub('%b()', '') }
                 end,
             })
-            vim.bo.complete = "o"
         end
         if client:supports_method('textDocument/definition') then
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition,
