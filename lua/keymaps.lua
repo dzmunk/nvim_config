@@ -8,6 +8,8 @@ map('n', '<C-j>', '<C-w>j', { remap = true })
 map('n', '<C-k>', '<C-w>k', { remap = true })
 map('n', '<C-l>', '<C-w>l', { remap = true })
 
+map('n', '<C-q>', '<C-l>', { desc = 'Clear multicursors' })
+
 map('i', '<Tab>', function()
     return vim.fn.pumvisible() == 1 and '<Down>' or '<Tab>'
 end, { expr = true, desc = 'Next completion or tab' })
